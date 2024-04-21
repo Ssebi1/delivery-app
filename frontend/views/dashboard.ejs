@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <input type="hidden" id="user-id">
+    <div class="min-h-full">
+        <nav class="bg-gray-800">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex items-baseline space-x-4">
+                            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                            <a href="#" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                                aria-current="page">Products</a>
+                            <a href="/contact"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Contact</a>
+                            <a href="/cart"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" id="cart-link">Cart</a>
+                            <a href="/orders"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" id="orders-link">Orders</a>
+                            <a href="/messages"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" id="messages-link">Messages</a>
+                        </div>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-4 flex items-center md:ml-6">
+                            <div onclick="logout()" style="cursor: pointer;"
+                                class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white">
+                                <span class="absolute -inset-1.5"></span>
+                                <span class="sr-only">Log out</span>
+                                <i class="fa fa-sign-out"></i>
+                            </div>
+
+                            <div class="relative ml-3">
+                                <div>
+                                    <button type="button" onclick="openUserProfile()"
+                                        class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm"
+                                        id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                        <span class="absolute -inset-1.5"></span>
+                                        <span class="sr-only">Open user menu</span>
+                                        <img class="h-8 w-8 rounded-full"
+                                            src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                                            alt="">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <!-- Mobile menu button -->
+                        <button type="button"
+                            class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                            aria-controls="mobile-menu" aria-expanded="false">
+                            <span class="absolute -inset-0.5"></span>
+                            <span class="sr-only">Open main menu</span>
+                            <!-- Menu open: "hidden", Menu closed: "block" -->
+                            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                            <!-- Menu open: "block", Menu closed: "hidden" -->
+                            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile menu, show/hide based on menu state. -->
+            <div class="md:hidden" id="mobile-menu">
+                <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                    <a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
+                        aria-current="page">Dashboard</a>
+                    <a href="#"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
+                    <a href="#"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
+                    <a href="#"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
+                    <a href="#"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Reports</a>
+                </div>
+                <div class="border-t border-gray-700 pb-3 pt-4">
+                    <div class="flex items-center px-5">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full"
+                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                alt="">
+                        </div>
+                        <div class="ml-3">
+                            <div class="text-base font-medium leading-none text-white">Tom Cook</div>
+                            <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
+                        </div>
+                        <button type="button"
+                            class="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Log out</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <header class="bg-white shadow">
+            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Products</h1>
+            </div>
+        </header>
+        <main>
+            <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
+                    aria-hidden="true">
+                    <div class="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
+                        style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+                    </div>
+                </div>
+            <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                <div class="">
+                    <a href="/products/add" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-2 rounded-full" style="font-size: 14px;" id="add-product-button">Add product</a>
+                    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                      <h2 class="sr-only">Products</h2>
+                  
+                      <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                        <% products.forEach(function(product){ %>
+                            <div class="group" onclick="openModal(<%=product.id%>)" style="cursor: pointer;">
+                                <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                                    <% if (product.imageUrl) { %>
+                                        <img src=<%=product.imageUrl%> alt=<%=product.name%> class="h-full w-full object-cover object-center group-hover:opacity-75">
+                                    <% } else { %>
+                                        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt=<%=product.name%> class="h-full w-full object-cover object-center group-hover:opacity-75">
+                                    <% } %>
+                                </div>
+                                <h3 class="mt-4 text-sm text-gray-700"><%=product.name%></h3>
+                                <% if (product.salePrice) { %>
+                                    <span class="mt-1 font-medium text-red-900 line-through"><%=product.price%> ron</span>
+                                    <span class="mt-1 text-lg font-medium text-gray-900"><%=product.salePrice%> ron</span>
+                                <% } else { %>
+                                    <span class="mt-1 text-lg font-medium text-gray-900"><%=product.price%> ron</span>
+                                <% } %>
+                            </div>
+
+                            <div class="fixed inset-0 z-10 w-screen overflow-y-auto" id="modal-<%=product.id%>" style="display: none;">
+                                <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+                                    <div class="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                                        <div
+                                            class="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                                            <button type="button" onclick="closeModals()"
+                                                class="absolute right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8">
+                                                <span class="sr-only">Close</span>
+                                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+
+                                            <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
+                                                <div
+                                                    class="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
+                                                    <% if (product.imageUrl) { %>
+                                                        <img src=<%=product.imageUrl%> alt=<%=product.name%> class="object-cover object-center">
+                                                    <% } else { %>
+                                                        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt=<%=product.name%> class="object-cover object-center">
+                                                    <% } %>
+                                                </div>
+                                                <div class="sm:col-span-8 lg:col-span-7">
+                                                    <h2 class="text-2xl font-bold text-gray-900 sm:pr-12"><%=product.name%></h2>
+
+                                                    <section aria-labelledby="information-heading" class="mt-2">
+                                                        <h3 id="information-heading" class="sr-only">Product information</h3>
+
+                                                        <% if (product.salePrice) { %>
+                                                            <span class="mt-1 font-medium text-red-900 line-through"><%=product.price%> ron</span>
+                                                            <span class="mt-1 text-lg font-medium text-gray-900"><%=product.salePrice%> ron</span>
+                                                        <% } else { %>
+                                                            <span class="mt-1 text-lg font-medium text-gray-900"><%=product.price%> ron</span>
+                                                        <% } %>
+                                                        <p><%=product.description%></p>
+                                                        <% if (product.weight) { %>
+                                                            <p><%=product.weight%>g</p>
+                                                        <% } %>  
+                                                    </section>
+                                                    <form>
+                                                        <button onclick="addToCart(<%=product.id%>)" type="button"
+                                                            class="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add
+                                                            to cart</button>
+
+                                                        <button onclick="updateProduct(<%=product.id%>)"
+                                                            class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 update-product-button">Update</button>
+                                                        <button onclick="deleteProduct(<%=product.id%>)"
+                                                            class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 px-8 py-3 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 delete-product-button">Delete</button>
+                                                        
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block z-9" id="modal-background" style="display: none;"></div>
+    </main>
+</div>
+
+
+
+
+    <script>
+        // check if user is not logged in
+        if (localStorage.getItem("user") == null) {
+            window.location.href = "/login";
+        }
+
+        const user = JSON.parse(localStorage.getItem("user"));
+        const user_id = user.id;
+        user_id_input = document.getElementById("user-id");
+        user_id_input.value = user_id;
+
+        cart_link = document.getElementById("cart-link");
+        cart_link.href = "/cart/" + user_id;
+
+        orders_link = document.getElementById("orders-link");
+        orders_link.href = "/orders/" + user_id;
+
+        document.getElementById("messages-link").href = "/messages/" + user_id;
+
+        if (user.admin == false) {
+            const addProductButton = document.getElementById("add-product-button");
+            addProductButton.style.display = "none";
+
+            const updateProductButton = document.querySelectorAll(".update-product-button");
+            updateProductButton.forEach(button => {
+                button.style.display = "none";
+            });
+            const deleteProductButton = document.querySelectorAll(".delete-product-button");
+            deleteProductButton.forEach(button => {
+                button.style.display = "none";
+            });
+        }
+
+        const logout = () => {
+            localStorage.removeItem("user");
+            window.location.href = "/login";
+        }
+
+        const openModal = (id) => {
+            const modal = document.getElementById(`modal-${id}`);
+            const modalBackground = document.getElementById(`modal-background`);
+            modal.style.display = "block";
+            modalBackground.style.display = "block";
+        }
+
+        const closeModals = () => {
+            const modals = document.querySelectorAll("[id^='modal-']");
+            const modalBackgrounds = document.querySelectorAll("[id^='modal-background']");
+            modals.forEach(modal => {
+                modal.style.display = "none";
+            });
+            modalBackgrounds.forEach(modalBackground => {
+                modalBackground.style.display = "none";
+            });
+        }
+
+        const updateProduct = (id) => {
+            window.location.href = `/products/update/${id}`;
+        }
+
+        const deleteProduct = (id) => {
+            fetch("/api/products/" + id, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.status != 'BAD_REQUEST') {
+                        window.location.reload();
+                    } else {
+                        Toastify({
+                            text: data.message,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            style: {
+                                background: "#f02e31",
+                            }
+                        }).showToast();
+                    }
+                });
+        }
+
+        const openUserProfile = () => {
+            window.location.href = "/profile/" + user.id;
+        }
+
+        const addToCart = (product_id) => {
+            fetch("/api/cart/" + user_id + '/' + product_id, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status != 'BAD_REQUEST') {
+                    window.location.href = "/cart/" + user_id;
+                } else {
+                    Toastify({
+                        text: data.message,
+                        close: true,
+                        gravity: "top",
+                        position: "right",
+                        stopOnFocus: true,
+                        style: {
+                            background: "#f02e31",
+                        }
+                    }).showToast();
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    </body>
+    
+    </html>

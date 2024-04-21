@@ -1,0 +1,22 @@
+version: "3.2"
+services:
+  database:
+    container_name: database
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: delivery
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
+      interval: 3s
+      retries: 5
+    volumes:
+      - ./database/data:/var/lib/mysql
+    networks:
+      - mysql
+    ports:
+      - "8181:3306"
+
+networks:
+  mysql: {}
