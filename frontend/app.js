@@ -18,8 +18,13 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 
 app.get('/dashboard', (req, res) => {
-  // get products from backend
-  fetch('http://localhost:8080/api/products')
+  page_no = req.query.page;
+  if (page_no === undefined) {
+    page_no = 0;
+  }
+
+    // get products from backend
+  fetch('http://localhost:8080/api/products?page=' + page_no)
     .then(res => res.json())
     .then(json => {
       res.render('dashboard', { title: 'Dashboard', products: json });
