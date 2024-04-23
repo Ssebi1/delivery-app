@@ -17,14 +17,28 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 
+app.get('/', (req, res) => {
+   res.redirect('/dashboard')
+});
+
 app.get('/dashboard', (req, res) => {
   page_no = req.query.page;
   if (page_no === undefined) {
     page_no = 0;
   }
 
+  sort_by = req.query.sort_by;
+  if (sort_by === undefined) {
+      sort_by='name'
+  }
+
+  sort_order = req.query.sort_order;
+    if (sort_order === undefined) {
+        sort_order='asc'
+    }
+
     // get products from backend
-  fetch('http://localhost:8080/api/products?page=' + page_no)
+  fetch('http://localhost:8080/api/products?page=' + page_no + '&sortBy=' + sort_by + '&sortOrder=' + sort_order)
     .then(res => res.json())
     .then(json => {
       res.render('dashboard', { title: 'Dashboard', products: json });
