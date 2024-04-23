@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -78,8 +80,8 @@ public class ProductController {
                         @ApiResponse(responseCode = "400", description = "Generic exception", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
                 })
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public Page<Product> getAllProducts(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "name") String sortBy, @RequestParam(defaultValue = "asc") String sortOrder) {
+        return productService.getAllProducts(page, sortBy, sortOrder);
     }
 
     @Operation(summary = "Get product by name", description = "Get a product by name and return it",

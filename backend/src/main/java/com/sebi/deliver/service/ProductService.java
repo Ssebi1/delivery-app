@@ -4,11 +4,13 @@ import com.sebi.deliver.exception.GenericException;
 import com.sebi.deliver.exception.MissingFieldsException;
 import com.sebi.deliver.exception.product.SalePriceBiggerThanPriceException;
 import com.sebi.deliver.model.Product;
-import com.sebi.deliver.model.User;
 import com.sebi.deliver.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,8 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public static final Logger logger = LoggerFactory.getLogger(ProductService.class);
+
+    private final int items_per_page = 4;
 
     @Autowired
     public ProductService(ProductRepository productRepository) {
@@ -79,9 +83,17 @@ public class ProductService {
         return product.get();
     }
 
-    public List<Product> getAllProducts() {
-        logger.info("Getting all products.");
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Integer page, String sortBy, String sortOrder) {
+        logger.info("Getting all products from page {}.", page);
+        Sort.Direction sortDirection = Sort.Direction.ASC;
+        if (sortOrder.equals("desc")) {
+            sortDirection = Sort.Direction.DESC;
+        }
+        String sortProperty = "name";
+        if (sortBy.equals("price") || sortBy.equals("weight")){
+            sortProperty = sortBy;
+        }
+        return productRepository.findAll(PageRequest.of(page, items_per_page, Sort.by(sortDirection, sortProperty)));
     }
 
     public void handle_create_update_errors(Product product) {
