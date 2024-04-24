@@ -54,11 +54,6 @@
   </div>
 
   <script>
-    // check if user is logged in
-    if (localStorage.getItem("user") != null) {
-      window.location.href = "/dashboard";
-    }
-
     const form = document.querySelector("form");
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -69,10 +64,11 @@
       email = document.getElementById("email").value;
       password = document.getElementById("password").value;
 
-      fetch("/api/users/login", {
+      fetch("/api/users/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Origin": "http://localhost:8282"
         },
         body: JSON.stringify({
           email: email,
@@ -83,7 +79,7 @@
         .then((data) => {
           if (data.status != 'BAD_REQUEST') {
             localStorage.setItem("user", JSON.stringify(data));
-            window.location.href = "/dashboard";
+            window.location.href = "/login/save/" + data.token;
           } else {
             Toastify({
               text: data.message,

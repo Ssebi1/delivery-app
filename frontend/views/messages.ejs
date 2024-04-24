@@ -155,23 +155,18 @@
 
 
     <script>
-        // check if user is not logged in
-        if (localStorage.getItem("user") == null) {
-            window.location.href = "/login";
-        }
-
         const user = JSON.parse(localStorage.getItem("user"));
         const user_id = user.id;
         document.getElementById("cart-link").href = "/cart/" + user_id;
         document.getElementById("orders-link").href = "/orders/" + user_id;
 
-        if (user.admin == false) {
+        if (user.isAdmin == false) {
             document.getElementById("messages-link").style.display = "none";
         }
 
         const logout = () => {
             localStorage.removeItem("user");
-            window.location.href = "/login";
+            window.location.href = "/logout";
         }
 
         const openUserProfile = () => {

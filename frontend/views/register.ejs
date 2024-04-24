@@ -70,11 +70,6 @@
   </div>
 
   <script>
-    // check if user is logged in
-    if (localStorage.getItem("user") != null) {
-      window.location.href = "/dashboard";
-    }
-
     const form = document.querySelector("form");
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -101,10 +96,11 @@
         return;
       }
 
-      fetch("/api/users/register", {
+      fetch("/api/users/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Origin": "http://localhost:8282"
         },
         body: JSON.stringify({
           name: name,

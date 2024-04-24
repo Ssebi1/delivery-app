@@ -13,7 +13,9 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**"); //Enable CORS for all endpoints
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8282")
+                        .allowedMethods("PUT", "DELETE", "GET", "POST", "PATCH");//Enable CORS for all endpoints
             }
         };
     }

@@ -205,11 +205,6 @@
 
 
     <script>
-        // check if user is not logged in
-        if (localStorage.getItem("user") == null) {
-            window.location.href = "/login";
-        }
-
         const user = JSON.parse(localStorage.getItem("user"));
         const user_id = user.id;
 
@@ -223,7 +218,7 @@
 
         const logout = () => {
             localStorage.removeItem("user");
-            window.location.href = "/login";
+            window.location.href = "/logout";
         }
         const openUserProfile = () => {
             window.location.href = "/profile/" + user.id;
@@ -234,6 +229,8 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + user.token,
+                    "Origin": "http://localhost:8282"
                 },
                 body: JSON.stringify({
                     name: document.getElementById('name').value,

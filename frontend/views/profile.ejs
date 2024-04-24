@@ -98,11 +98,6 @@
     </div>
 
     <script>
-        // check if user is not logged in
-        if (localStorage.getItem("user") == null) {
-            window.location.href = "/login";
-        }
-
         const user = JSON.parse(localStorage.getItem("user"));
         const user_id = document.querySelector("input[type=hidden]").value;
         if (user.id != user_id) {
@@ -127,6 +122,8 @@
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + user.token,
+                    "Origin": "http://localhost:8282"
                 },
                 body: JSON.stringify({
                     name: name,
@@ -162,6 +159,8 @@
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + user.token,
+                    "Origin": "http://localhost:8282"
                 },
             })
                 .then((res) => res.json())

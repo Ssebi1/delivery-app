@@ -43,7 +43,7 @@ public class UserControllerIT {
     public void loginUser() throws Exception {
         UserRequest request = new UserRequest("Name", "Password", "Email");
 
-        when(userService.login(any())).thenReturn(new LoginResponse("token", "refreshToken", request.getName(), request.getEmail()));
+        when(userService.login(any())).thenReturn(new LoginResponse("token", "refreshToken", request.getName(), request.getEmail(), 1L, false));
 
         mockMvc.perform(post("/api/users/login")
                         .contentType("application/json")

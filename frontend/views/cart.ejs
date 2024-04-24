@@ -192,11 +192,6 @@
             document.querySelector(".total").innerHTML = total + " ron";
         }
         calculateTotal();
-        // check if user is not logged in
-        if (localStorage.getItem("user") == null) {
-            window.location.href = "/login";
-        }
-
         const user = JSON.parse(localStorage.getItem("user"));
         const user_id = user.id;
         document.getElementById("orders-link").href = "/orders/" + user_id;
@@ -204,7 +199,7 @@
 
         const logout = () => {
             localStorage.removeItem("user");
-            window.location.href = "/login";
+            window.location.href = "/logout";
         }
         const openUserProfile = () => {
             window.location.href = "/profile/" + user.id;
@@ -215,6 +210,8 @@
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + user.token,
+                    "Origin": "http://localhost:8282"
                 },
             })
                 .then((response) => response.json())
@@ -253,6 +250,8 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + user.token,
+                    "Origin": "http://localhost:8282"
                 },
                 body: JSON.stringify({
                     price: parseInt(document.querySelector(".total").innerHTML.replace(" ron", "")),

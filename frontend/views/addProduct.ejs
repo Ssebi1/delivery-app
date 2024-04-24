@@ -83,16 +83,7 @@
     </div>
 
     <script>
-        // check if user is not logged in
-        if (localStorage.getItem("user") == null) {
-            window.location.href = "/login";
-        }
-
         const user = JSON.parse(localStorage.getItem("user"));
-        if (user.admin == false) {
-            window.location.href = "/dashboard";
-        }
-
         const form = document.querySelector("form");
         form.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -107,10 +98,12 @@
             weight = document.getElementById("weight").value;
             imageUrl = document.getElementById("imageUrl").value;
 
-            fetch("/api/products", {
+            fetch("/api/products/admin", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + user.token,
+                    "Origin": "http://localhost:8282"
                 },
                 body: JSON.stringify({
                     name: name,

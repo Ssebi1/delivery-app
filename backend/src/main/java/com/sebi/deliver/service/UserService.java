@@ -75,7 +75,7 @@ public class UserService {
         System.out.println("USER IS: "+ db_user);
         var jwt = jwtUtils.generateToken(user);
         var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
-        return new LoginResponse(jwt, refreshToken, db_user.getName(), db_user.getEmail());
+        return new LoginResponse(jwt, refreshToken, db_user.getName(), db_user.getEmail(), db_user.getId(), db_user.isAdmin());
     }
 
     public User deleteUser(Long id) {

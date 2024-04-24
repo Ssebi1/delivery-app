@@ -55,7 +55,7 @@ public class OrderController {
                     @ApiResponse(responseCode = "400", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                     @ApiResponse(responseCode = "400", description = "Missing fields", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             })
-    @PostMapping("/admin/{id}")
+    @PostMapping("/{id}")
     public Order addOrder(@PathVariable Long id, @RequestBody Order order) {
         return orderService.addOrder(id, order);
     }
