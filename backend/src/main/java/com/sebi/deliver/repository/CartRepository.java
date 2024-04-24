@@ -1,7 +1,6 @@
 package com.sebi.deliver.repository;
 
 import com.sebi.deliver.model.CartItem;
-import com.sebi.deliver.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -3,7 +3,7 @@ package com.sebi.deliver.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sebi.deliver.dto.CouponRequest;
 import com.sebi.deliver.model.Coupon;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.CouponService;
 import com.sebi.deliver.service.UserService;
 import org.junit.jupiter.api.Test;

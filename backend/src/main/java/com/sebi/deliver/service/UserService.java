@@ -1,17 +1,22 @@
 package com.sebi.deliver.service;
 
+import com.sebi.deliver.dto.LoginResponse;
 import com.sebi.deliver.exception.GenericException;
 import com.sebi.deliver.exception.MissingFieldsException;
 import com.sebi.deliver.exception.user.EmailAlreadyExistsException;
-import com.sebi.deliver.exception.user.WrongCredentialsException;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.UserRepository;
+import com.sebi.deliver.service.security.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.sebi.deliver.utils.Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -19,6 +24,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    @Autowired
+    private JWTUtils jwtUtils;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -49,28 +61,21 @@ public class UserService {
         }
 
         // hash password
-        String newPassword = Hash.hash(user.getPassword());
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         logger.info("User {} with email {} registered successfully.", user.getName(), user.getEmail());
         return user;
     }
 
-    public User login(User user) {
+    public LoginResponse login(User user) {
         logger.info("Logging in user with email: {}", user.getEmail());
 
-        if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) { throw new MissingFieldsException(); }
-        Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
-        if (userByEmail.isEmpty()) {
-            logger.error("User with email {} not found.", user.getEmail());
-            throw new WrongCredentialsException();
-        }
-
-        User userFromDb = userByEmail.get();
-        String hashedPassword = userFromDb.getPassword();
-        if (!Hash.check(user.getPassword(), hashedPassword)) { throw new WrongCredentialsException(); }
-        logger.info("User {} with email {} logged in successfully.", userFromDb.getName(), userFromDb.getEmail());
-        return userFromDb;
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+        var db_user = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        System.out.println("USER IS: "+ db_user);
+        var jwt = jwtUtils.generateToken(user);
+        var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+        return new LoginResponse(jwt, refreshToken, db_user.getName(), db_user.getEmail());
     }
 
     public User deleteUser(Long id) {

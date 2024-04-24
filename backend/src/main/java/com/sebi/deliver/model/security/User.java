@@ -1,4 +1,4 @@
-package com.sebi.deliver.model;
+package com.sebi.deliver.model.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -6,13 +6,19 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @ToString
 @Data
 @Entity @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @SequenceGenerator(name = "users_sequence", sequenceName = "users_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_sequence")
@@ -46,10 +52,6 @@ public class User {
     @Schema(name = "User notes", description = "User notes", example = "Notes")
     private String notes;
 
-    @Transient
-    @Schema(name = "User token", description = "User token", example = "hashed_toke")
-    private String token;
-
     @Schema(name = "User admin", description = "True if the user is an admin, false otherwise", example = "true")
     private boolean isAdmin;
 
@@ -77,5 +79,36 @@ public class User {
             @NonNull String password) {
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        String role = isAdmin ? "ADMIN" : "USER";
+        return List.of(new SimpleGrantedAuthority(role));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

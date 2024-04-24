@@ -1,5 +1,6 @@
 package com.sebi.deliver.model;
 
+import com.sebi.deliver.model.security.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

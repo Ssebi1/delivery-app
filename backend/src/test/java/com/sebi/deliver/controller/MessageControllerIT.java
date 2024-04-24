@@ -2,9 +2,8 @@ package com.sebi.deliver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sebi.deliver.dto.MessageRequest;
-import com.sebi.deliver.dto.UserRequest;
 import com.sebi.deliver.model.Message;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.MessageService;
 import com.sebi.deliver.service.UserService;
 import org.junit.jupiter.api.Test;

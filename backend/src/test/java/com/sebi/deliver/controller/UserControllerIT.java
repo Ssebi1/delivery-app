@@ -1,8 +1,9 @@
 package com.sebi.deliver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sebi.deliver.dto.LoginResponse;
 import com.sebi.deliver.dto.UserRequest;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserControllerIT {
     public void createUser() throws Exception {
         UserRequest request = new UserRequest("Name", "Password", "Email");
 
-        when(userService.register(any())).thenReturn(new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false));
+        when(userService.register(any())).thenReturn(new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false));
 
         mockMvc.perform(post("/api/users/register")
                         .contentType("application/json")
@@ -42,7 +43,7 @@ public class UserControllerIT {
     public void loginUser() throws Exception {
         UserRequest request = new UserRequest("Name", "Password", "Email");
 
-        when(userService.login(any())).thenReturn(new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false));
+        when(userService.login(any())).thenReturn(new LoginResponse("token", "refreshToken", request.getName(), request.getEmail()));
 
         mockMvc.perform(post("/api/users/login")
                         .contentType("application/json")
@@ -54,7 +55,7 @@ public class UserControllerIT {
 
     @Test
     public void deleteUser() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
 
         when(userService.deleteUser(anyLong())).thenReturn(user);
 

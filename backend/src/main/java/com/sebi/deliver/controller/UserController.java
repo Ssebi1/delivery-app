@@ -1,8 +1,8 @@
 package com.sebi.deliver.controller;
 
-import com.sebi.deliver.exception.user.EmailAlreadyExistsException;
+import com.sebi.deliver.dto.LoginResponse;
 import com.sebi.deliver.model.ApiError;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +29,7 @@ public class UserController {
                         @ApiResponse(responseCode = "400", description = "Missing fields", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                         @ApiResponse(responseCode = "400", description = "Email already exists", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
                 })
-    @PostMapping("register")
+    @PostMapping("/auth/register")
     public User registerUser(@RequestBody User user) {
         return userService.register(user);
     }
@@ -42,8 +42,8 @@ public class UserController {
                         @ApiResponse(responseCode = "400", description = "Missing fields", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                         @ApiResponse(responseCode = "400", description = "Wrong credentials", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
                 })
-    @PostMapping("login")
-    public User loginUser(@RequestBody User user) {
+    @PostMapping("/auth/login")
+    public LoginResponse loginUser(@RequestBody User user) {
         return userService.login(user);
     }
 
@@ -54,7 +54,7 @@ public class UserController {
                         @ApiResponse(responseCode = "400", description = "Generic exception", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                         @ApiResponse(responseCode = "400", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
                 })
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public User deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }

@@ -3,7 +3,7 @@ package com.sebi.deliver.service;
 import com.sebi.deliver.exception.GenericException;
 import com.sebi.deliver.model.CartItem;
 import com.sebi.deliver.model.Product;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.CartRepository;
 import com.sebi.deliver.repository.ProductRepository;
 import com.sebi.deliver.repository.UserRepository;

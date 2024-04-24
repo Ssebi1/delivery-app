@@ -2,12 +2,9 @@ package com.sebi.deliver.service;
 
 import com.sebi.deliver.exception.GenericException;
 import com.sebi.deliver.exception.MissingFieldsException;
-import com.sebi.deliver.exception.product.SalePriceBiggerThanPriceException;
 import com.sebi.deliver.model.Message;
-import com.sebi.deliver.model.Product;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.MessageRepository;
-import com.sebi.deliver.repository.ProductRepository;
 import com.sebi.deliver.repository.UserRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;

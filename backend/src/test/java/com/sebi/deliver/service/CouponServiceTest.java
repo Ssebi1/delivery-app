@@ -1,13 +1,10 @@
 package com.sebi.deliver.service;
 
 import com.sebi.deliver.exception.GenericException;
-import com.sebi.deliver.exception.MissingFieldsException;
 import com.sebi.deliver.exception.coupon.InvalidDiscountException;
 import com.sebi.deliver.model.Coupon;
-import com.sebi.deliver.model.Message;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.CouponRepository;
-import com.sebi.deliver.repository.MessageRepository;
 import com.sebi.deliver.repository.UserRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
@@ -19,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

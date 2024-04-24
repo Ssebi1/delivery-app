@@ -30,7 +30,7 @@ public class MessageController {
                     @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Message.class)))),
                     @ApiResponse(responseCode = "400", description = "Generic exception", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
             })
-    @GetMapping
+    @GetMapping("/admin")
     public List<Message> getAllMessages() {
         return messageService.getAllMessages();
     }

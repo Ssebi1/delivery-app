@@ -30,7 +30,7 @@ public class OrderController {
                     @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Order.class)))),
                     @ApiResponse(responseCode = "400", description = "Generic exception", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
             })
-    @GetMapping
+    @GetMapping("/admin")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
@@ -55,7 +55,7 @@ public class OrderController {
                     @ApiResponse(responseCode = "400", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                     @ApiResponse(responseCode = "400", description = "Missing fields", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             })
-    @PostMapping("{id}")
+    @PostMapping("/admin/{id}")
     public Order addOrder(@PathVariable Long id, @RequestBody Order order) {
         return orderService.addOrder(id, order);
     }

@@ -32,7 +32,7 @@ public class ProductController {
                         @ApiResponse(responseCode = "400", description = "Missing fields", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                         @ApiResponse(responseCode = "400", description = "Sale price is greater than price", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
                 })
-    @PostMapping
+    @PostMapping("/admin")
     public Product createProduct(@RequestBody Product product) {
         return productService.createProduct(product);
     }
@@ -45,7 +45,7 @@ public class ProductController {
                         @ApiResponse(responseCode = "400", description = "Missing fields", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                         @ApiResponse(responseCode = "400", description = "Sale price is greater than price", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
                 })
-    @PutMapping("{id}")
+    @PutMapping("/admin/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
         return productService.updateProduct(id, product);
     }
@@ -68,7 +68,7 @@ public class ProductController {
                         @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))),
                         @ApiResponse(responseCode = "400", description = "Product not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
                 })
-    @DeleteMapping("{id}")
+    @DeleteMapping("/admin/{id}")
     public Product deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);
     }

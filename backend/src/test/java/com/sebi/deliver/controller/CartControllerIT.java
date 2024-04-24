@@ -3,7 +3,7 @@ package com.sebi.deliver.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sebi.deliver.model.CartItem;
 import com.sebi.deliver.model.Product;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.CartService;
 import com.sebi.deliver.service.ProductService;
 import com.sebi.deliver.service.UserService;

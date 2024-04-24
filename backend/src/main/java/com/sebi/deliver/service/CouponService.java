@@ -1,23 +1,17 @@
 package com.sebi.deliver.service;
 
 import com.sebi.deliver.exception.GenericException;
-import com.sebi.deliver.exception.MissingFieldsException;
 import com.sebi.deliver.exception.coupon.InvalidDiscountException;
 import com.sebi.deliver.model.Coupon;
-import com.sebi.deliver.model.Message;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.CouponRepository;
-import com.sebi.deliver.repository.MessageRepository;
 import com.sebi.deliver.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;

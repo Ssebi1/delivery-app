@@ -1,26 +1,20 @@
 package com.sebi.deliver.service;
 
 import com.sebi.deliver.exception.GenericException;
-import com.sebi.deliver.exception.MissingFieldsException;
 import com.sebi.deliver.model.CartItem;
-import com.sebi.deliver.model.Order;
 import com.sebi.deliver.model.Product;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.CartRepository;
-import com.sebi.deliver.repository.OrderRepository;
 import com.sebi.deliver.repository.ProductRepository;
 import com.sebi.deliver.repository.UserRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

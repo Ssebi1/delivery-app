@@ -1,10 +1,11 @@
 package com.sebi.deliver.service;
 
+import com.sebi.deliver.dto.LoginResponse;
 import com.sebi.deliver.exception.GenericException;
 import com.sebi.deliver.exception.MissingFieldsException;
 import com.sebi.deliver.exception.user.EmailAlreadyExistsException;
 import com.sebi.deliver.exception.user.WrongCredentialsException;
-import com.sebi.deliver.model.User;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.UserRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
@@ -136,7 +137,7 @@ public class UserServiceTest {
         User newUser = new User(name, email, "test");
 
         // act
-        User loggedInUser = userService.login(newUser);
+        LoginResponse loggedInUser = userService.login(newUser);
 
         // assert
         assertNotNull(loggedInUser);

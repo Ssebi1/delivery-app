@@ -32,7 +32,7 @@ public class CouponController {
                                     array = @ArraySchema(schema = @Schema(implementation = Coupon.class)))),
                     @ApiResponse(responseCode = "400", description = "Generic exception", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
             })
-    @GetMapping
+    @GetMapping("/admin")
     public List<Coupon> getAllCoupons() {
         return couponService.getAllCoupons();
     }
@@ -46,7 +46,7 @@ public class CouponController {
                     @ApiResponse(responseCode = "400", description = "Generic exception", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                     @ApiResponse(responseCode = "400", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
             })
-    @GetMapping("/user/{id}")
+    @GetMapping("/admin/user/{id}")
     public List<Coupon> getUserCoupons(@PathVariable Long id) {
         return couponService.getUserCoupons(id);
     }
@@ -61,7 +61,7 @@ public class CouponController {
                     @ApiResponse(responseCode = "400", description = "Generic exception", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                     @ApiResponse(responseCode = "400", description = "Coupon not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
             })
-    @GetMapping("{id}")
+    @GetMapping("/admin/{id}")
     public Coupon getCoupon(@PathVariable Long id) {
         return couponService.getCoupon(id);
     }
@@ -76,7 +76,7 @@ public class CouponController {
                     @ApiResponse(responseCode = "400", description = "Invalid discount", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                     @ApiResponse(responseCode = "400", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
             })
-    @PostMapping("{id}")
+    @PostMapping("/admin/{id}")
     public Coupon addCoupon(@PathVariable Long id, @RequestBody Coupon coupon) {
         return couponService.addCoupon(id, coupon);
     }
@@ -90,7 +90,7 @@ public class CouponController {
                     @ApiResponse(responseCode = "400", description = "Generic exception", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                     @ApiResponse(responseCode = "400", description = "Coupon not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
             })
-    @DeleteMapping("{id}")
+    @DeleteMapping("/admin/{id}")
     public void deleteCoupon(@PathVariable Long id) {
         couponService.deleteCoupon(id);
     }
@@ -105,7 +105,7 @@ public class CouponController {
                     @ApiResponse(responseCode = "400", description = "Coupon not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
                     @ApiResponse(responseCode = "400", description = "Invalid discount", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
             })
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public Coupon updateCoupon(@PathVariable Long id, @RequestBody Coupon coupon) {
         return couponService.updateCoupon(id, coupon);
     }

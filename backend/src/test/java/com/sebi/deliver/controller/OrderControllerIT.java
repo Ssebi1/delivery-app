@@ -2,10 +2,8 @@ package com.sebi.deliver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sebi.deliver.model.Order;
-import com.sebi.deliver.model.User;
-import com.sebi.deliver.service.CartService;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.OrderService;
-import com.sebi.deliver.service.ProductService;
 import com.sebi.deliver.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

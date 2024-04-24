@@ -3,6 +3,7 @@ package com.sebi.deliver.service;
 import com.sebi.deliver.exception.GenericException;
 import com.sebi.deliver.exception.MissingFieldsException;
 import com.sebi.deliver.model.*;
+import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.CartRepository;
 import com.sebi.deliver.repository.OrderRepository;
 import com.sebi.deliver.repository.UserRepository;
