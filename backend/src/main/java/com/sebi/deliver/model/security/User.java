@@ -34,7 +34,6 @@ public class User implements UserDetails {
     @Schema(name = "User email", description = "User email", example = "test@yahoo.com")
     private String email;
 
-    @NonNull
     @Schema(name = "User password", description = "User password", example = "password")
     @Size(min = 6)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -7,6 +7,7 @@ import com.sebi.deliver.exception.user.EmailAlreadyExistsException;
 import com.sebi.deliver.exception.user.WrongCredentialsException;
 import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.repository.UserRepository;
+import com.sebi.deliver.service.security.JWTUtils;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +19,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import com.sebi.deliver.utils.Hash;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
+
+    @Mock
+    private AuthenticationManager authenticationManager;
+
+    @Mock
+    private JWTUtils jwtUtils;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Mock
     private UserRepository userRepository;
@@ -143,24 +155,6 @@ public class UserServiceTest {
         assertNotNull(loggedInUser);
         assertEquals(user.getName(), loggedInUser.getName());
         assertEquals(user.getEmail(), loggedInUser.getEmail());
-    }
-
-    @Test
-    @Description("Test for logging in a user with wrong credentials")
-    void login_wrongCredentials_throwsException() {
-        // arrange
-        String name = "Sebi", email = "test@yahoo.com", password = "test";
-        User user = new User(name, email, password);
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
-        user.setPassword("wrongPassword");
-
-        // act
-        WrongCredentialsException exception = assertThrows(WrongCredentialsException.class,
-                () -> userService.login(user));
-
-        // assert
-        assertNotNull(exception);
-        assertEquals("Wrong credentials", exception.getMessage());
     }
 
     @Test

@@ -34,7 +34,7 @@ public class CartControllerIT {
 
     @Test
     public void getCart() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
         CartItem cartItem = new CartItem(1L, user, product, 1);
         when(cartService.getCart(anyLong())).thenReturn(java.util.List.of(cartItem));
@@ -46,7 +46,7 @@ public class CartControllerIT {
 
     @Test
     public void deleteProductFromCart() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
         CartItem cartItem = new CartItem(1L, user, product, 1);
         when(cartService.deleteProductFromCart(anyLong(), anyLong())).thenReturn(cartItem);
@@ -58,7 +58,7 @@ public class CartControllerIT {
 
     @Test
     public void addProductToCart() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
         CartItem cartItem = new CartItem(1L, user, product, 1);
         when(cartService.addProductToCart(anyLong(), anyLong())).thenReturn(cartItem);
@@ -70,7 +70,7 @@ public class CartControllerIT {
 
     @Test
     public void deleteCart() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
         CartItem cartItem = new CartItem(1L, user, product, 1);
 

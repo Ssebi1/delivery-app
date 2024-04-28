@@ -32,7 +32,7 @@ public class ProductControllerIT {
 
         when(productService.createProduct(any())).thenReturn(new Product(1L, "Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"));
 
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/products/admin")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status() .isOk())
@@ -50,7 +50,7 @@ public class ProductControllerIT {
 
         when(productService.deleteProduct(anyLong())).thenReturn(product);
 
-        mockMvc.perform(delete("/api/products/{id}", 1L))
+        mockMvc.perform(delete("/api/products/admin/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(product.getName()))
                 .andExpect(jsonPath("$.price").value(product.getPrice()))
@@ -114,7 +114,7 @@ public class ProductControllerIT {
 
         when(productService.updateProduct(anyLong(), any())).thenReturn(new Product(1L, "Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"));
 
-        mockMvc.perform(put("/api/products/{id}", 1L)
+        mockMvc.perform(put("/api/products/admin/{id}", 1L)
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status() .isOk())

@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.sebi.deliver.utils.Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,16 +24,16 @@ public class UserService {
     private final UserRepository userRepository;
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    @Autowired
-    private JWTUtils jwtUtils;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final JWTUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JWTUtils jwtUtils, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User register(User user) {
@@ -60,7 +59,7 @@ public class UserService {
             }
         }
 
-        // hash password
+        // encode password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         logger.info("User {} with email {} registered successfully.", user.getName(), user.getEmail());
@@ -69,10 +68,13 @@ public class UserService {
 
     public LoginResponse login(User user) {
         logger.info("Logging in user with email: {}", user.getEmail());
+        if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
+            logger.error("Missing fields.");
+            throw new MissingFieldsException();
+        }
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         var db_user = userRepository.findByEmail(user.getEmail()).orElseThrow();
-        System.out.println("USER IS: "+ db_user);
         var jwt = jwtUtils.generateToken(user);
         var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
         return new LoginResponse(jwt, refreshToken, db_user.getName(), db_user.getEmail(), db_user.getId(), db_user.isAdmin());

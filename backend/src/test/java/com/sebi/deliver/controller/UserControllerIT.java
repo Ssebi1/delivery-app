@@ -67,7 +67,7 @@ public class UserControllerIT {
 
     @Test
     public void getUser() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
 
         when(userService.getUser(anyLong())).thenReturn(user);
 
@@ -80,7 +80,7 @@ public class UserControllerIT {
     @Test
     public void updateUser() throws Exception {
         UserRequest request = new UserRequest("Name", "Password", "Email");
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
 
         when(userService.updateUser(anyLong(), any())).thenReturn(user);
 

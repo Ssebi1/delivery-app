@@ -96,7 +96,7 @@ public class CartServiceTest {
         Product product = new Product(1L, "Product", "Description", 5.0, 4.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
         cartItem.setProduct(product);
         cartItem.setQuantity(1);
-        User user = new User(1L, "Username", "Password", "Address", "Phone", "Email", "City", "notes", "token", false);
+        User user = new User(1L, "Username", "Password", "Address", "Phone", "Email", "City", "notes", false);
         cartItem.setUser(user);
         when(cartRepository.findByUserId(user.getId())).thenReturn(List.of(cartItem));
 
@@ -117,7 +117,7 @@ public class CartServiceTest {
         Product product = new Product(1L, "Product", "Description", 5.0, 4.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
         cartItem.setProduct(product);
         cartItem.setQuantity(1);
-        User user = new User(1L, "Username", "Password", "Address", "Phone", "Email", "City", "notes", "token", false);
+        User user = new User(1L, "Username", "Password", "Address", "Phone", "Email", "City", "notes", false);
         cartItem.setUser(user);
         when(cartRepository.findByUserIdAndProductId(user.getId(), product.getId())).thenReturn(Optional.of(cartItem));
 
@@ -137,7 +137,7 @@ public class CartServiceTest {
         Product product = new Product(1L, "Product", "Description", 5.0, 4.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
         cartItem.setProduct(product);
         cartItem.setQuantity(1);
-        User user = new User(1L, "Username", "Password", "Address", "Phone", "Email", "City", "notes", "token", false);
+        User user = new User(1L, "Username", "Password", "Address", "Phone", "Email", "City", "notes", false);
         cartItem.setUser(user);
         when(cartRepository.findByUserId(user.getId())).thenReturn(List.of(cartItem));
 

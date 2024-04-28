@@ -32,7 +32,7 @@ public class MessageControllerIT {
     @Test
     public void createMessage() throws Exception {
         MessageRequest request = new MessageRequest("Name", "Email", "Message", "Phone", "Company");
-        User user = new User(1L, "Name", "Email", "Password", "City", "Phone", "Address", "Notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "City", "Phone", "Address", "Notes", false);
 
         when(userService.getUser(anyLong())).thenReturn(user);
         when(messageService.addMessage(anyLong(), any())).thenReturn(new Message(1L, user, "Message", "Date", "Name", "Email", "Phone"));
@@ -52,7 +52,7 @@ public class MessageControllerIT {
         Message message = new Message(1L, null, "Message", "Date", "Name", "Email", "Phone");
         when(messageService.getAllMessages()).thenReturn(java.util.List.of(message));
 
-        mockMvc.perform(get("/api/messages"))
+        mockMvc.perform(get("/api/messages/admin"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value(message.getName()))
                 .andExpect(jsonPath("$[0].email").value(message.getEmail()))

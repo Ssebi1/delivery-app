@@ -30,7 +30,7 @@ public class OrderControllerIT {
 
     @Test
     public void addOrder() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         when(userService.getUser(anyLong())).thenReturn(user);
         Order order = new Order(1L, user, "products", 10.0, "date");
         when(orderService.addOrder(anyLong(), any())).thenReturn(new Order(1L, user, "products", 10.0, "date"));
@@ -45,11 +45,11 @@ public class OrderControllerIT {
 
     @Test
     public void getAllOrders() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Order order = new Order(1L, user, "products", 10.0, "date");
         when(orderService.getAllOrders()).thenReturn(java.util.List.of(order));
 
-        mockMvc.perform(get("/api/orders"))
+        mockMvc.perform(get("/api/orders/admin"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].products").value(order.getProducts()))
                 .andExpect(jsonPath("$[0].price").value(order.getPrice()));
@@ -57,7 +57,7 @@ public class OrderControllerIT {
 
     @Test
     public void getUserOrders() throws Exception {
-        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", null, false);
+        User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Order order = new Order(1L, user, "products", 10.0, "date");
         when(orderService.getUserOrders(anyLong())).thenReturn(java.util.List.of(order));
 

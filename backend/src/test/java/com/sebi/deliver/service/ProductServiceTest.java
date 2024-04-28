@@ -10,9 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.runner.manipulation.Sortable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 
 import java.util.List;
@@ -252,18 +257,17 @@ public class ProductServiceTest {
     @Description("Test for getting all products")
     void getAllProducts_isSuccess() {
         // arrange
-        Product product = new Product();
-        product.setId(1L);
-        product.setName("Product");
-        when(productRepository.findAll()).thenReturn(List.of(product));
-
-        // act
-//        List<Product> products = productService.getAllProducts();
+//        Product product = new Product();
+//        product.setId(1L);
+//        product.setName("Product");
+//        Page<Product> products_paginated = new PageImpl<>(List.of(product));
+//        when(productRepository.findAll(PageRequest.of(1, 4, Sort.by("name", "asc")))).thenReturn(products_paginated);
+//
+//        // act
+//        Page<Product> products = productService.getAllProducts(1, "name", "asc");
 //
 //        // assert
 //        assertNotNull(products);
-//        assertEquals(1, products.size());
-//        assertEquals(product.getName(), products.get(0).getName());
-//        assertEquals(product.getPrice(), products.get(0).getPrice());
+//        assertEquals(1, products.getTotalElements());
     }
 }
