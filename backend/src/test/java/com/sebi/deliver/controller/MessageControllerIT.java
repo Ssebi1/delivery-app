@@ -6,10 +6,14 @@ import com.sebi.deliver.model.Message;
 import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.MessageService;
 import com.sebi.deliver.service.UserService;
+import com.sebi.deliver.service.security.JWTUtils;
+import com.sebi.deliver.service.security.UserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.*;
@@ -18,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = MessageController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class MessageControllerIT {
 
     @Autowired
@@ -28,8 +33,13 @@ public class MessageControllerIT {
     private MessageService messageService;
     @MockBean
     private UserService userService;
+    @MockBean
+    private JWTUtils jwtUtils;
+    @MockBean
+    private UserDetailsService userDetailsService;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void createMessage() throws Exception {
         MessageRequest request = new MessageRequest("Name", "Email", "Message", "Phone", "Company");
         User user = new User(1L, "Name", "Email", "Password", "City", "Phone", "Address", "Notes", false);
@@ -48,6 +58,7 @@ public class MessageControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void getAllMessages() throws Exception {
         Message message = new Message(1L, null, "Message", "Date", "Name", "Email", "Phone");
         when(messageService.getAllMessages()).thenReturn(java.util.List.of(message));
@@ -61,6 +72,7 @@ public class MessageControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void getUserMessages() throws Exception {
         Message message = new Message(1L, null, "Message", "Date", "Name", "Email", "Phone");
         when(messageService.getUserMessages(anyLong())).thenReturn(java.util.List.of(message));

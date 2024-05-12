@@ -7,9 +7,13 @@ import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.CartService;
 import com.sebi.deliver.service.ProductService;
 import com.sebi.deliver.service.UserService;
+import com.sebi.deliver.service.security.JWTUtils;
+import com.sebi.deliver.service.security.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = CartController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class CartControllerIT {
 
     @Autowired
@@ -31,8 +36,13 @@ public class CartControllerIT {
     private UserService userService;
     @MockBean
     private ProductService productService;
+    @MockBean
+    private JWTUtils jwtUtils;
+    @MockBean
+    private UserDetailsService userDetailsService;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void getCart() throws Exception {
         User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
@@ -45,6 +55,7 @@ public class CartControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void deleteProductFromCart() throws Exception {
         User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
@@ -57,6 +68,7 @@ public class CartControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void addProductToCart() throws Exception {
         User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
@@ -69,6 +81,7 @@ public class CartControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void deleteCart() throws Exception {
         User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
         Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");

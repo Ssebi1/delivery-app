@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @ToString
 @Data
@@ -110,6 +109,10 @@ public class User implements UserDetails {
             @NonNull String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public User() {
+
     }
 
     @Override

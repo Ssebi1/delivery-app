@@ -4,10 +4,14 @@ import com.fasterxml.jackson.databind.*;
 import com.sebi.deliver.dto.ProductRequest;
 import com.sebi.deliver.model.Product;
 import com.sebi.deliver.service.ProductService;
+import com.sebi.deliver.service.security.JWTUtils;
+import com.sebi.deliver.service.security.UserDetailsService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.boot.test.mock.mockito.*;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.*;
 
 import java.util.List;
@@ -17,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = ProductController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class ProductControllerIT {
 
     @Autowired
@@ -25,8 +30,13 @@ public class ProductControllerIT {
     private ObjectMapper objectMapper;
     @MockBean
     private ProductService productService;
+    @MockBean
+    private JWTUtils jwtUtils;
+    @MockBean
+    private UserDetailsService userDetailsService;
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void createProduct() throws Exception {
         ProductRequest request = new ProductRequest("Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
 
@@ -45,6 +55,7 @@ public class ProductControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void deleteProduct() throws Exception {
         Product product = new Product(1L, "Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
 
@@ -60,10 +71,11 @@ public class ProductControllerIT {
                 .andExpect(jsonPath("$.imageUrl").value(product.getImageUrl()));
     }
 
-    @Test
-    public void getProducts() throws Exception {
-        Product product = new Product(1L, "Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-
+//    @Test
+//    @WithMockUser(roles = "ADMIN")
+//    public void getProducts() throws Exception {
+//        Product product = new Product(1L, "Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+//
 //        when(productService.getAllProducts()).thenReturn(List.of(product));
 //
 //        mockMvc.perform(get("/api/products"))
@@ -74,9 +86,10 @@ public class ProductControllerIT {
 //                .andExpect(jsonPath("$[0].salePrice").value(product.getSalePrice()))
 //                .andExpect(jsonPath("$[0].weight").value(product.getWeight()))
 //                .andExpect(jsonPath("$[0].imageUrl").value(product.getImageUrl()));
-    }
+//    }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void getProductsByName() throws Exception {
         Product product = new Product(1L, "Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
 
@@ -93,8 +106,9 @@ public class ProductControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void getProduct() throws Exception {
-        Product product = new Product(1L, "Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+        Product product = new Product(1L, "Name", "Description", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
 
         when(productService.getProduct(anyLong())).thenReturn(product);
 
@@ -109,6 +123,7 @@ public class ProductControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void updateProduct() throws Exception {
         ProductRequest request = new ProductRequest("Name", "Descrption", 10.0, 5.0, 5.0, "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
 

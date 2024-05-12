@@ -5,10 +5,15 @@ import com.sebi.deliver.dto.LoginResponse;
 import com.sebi.deliver.dto.UserRequest;
 import com.sebi.deliver.model.security.User;
 import com.sebi.deliver.service.UserService;
+import com.sebi.deliver.service.security.JWTUtils;
+import com.sebi.deliver.service.security.UserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.*;
@@ -16,22 +21,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class UserControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
+    @MockBean
+    private JWTUtils jwtUtils;
+    @MockBean
+    private UserDetailsService userDetailsService;
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
     private UserService userService;
 
     @Test
+    @WithAnonymousUser()
     public void createUser() throws Exception {
         UserRequest request = new UserRequest("Name", "Password", "Email");
 
         when(userService.register(any())).thenReturn(new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false));
 
-        mockMvc.perform(post("/api/users/register")
+        mockMvc.perform(post("/api/users/auth/register")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status() .isOk())
@@ -40,12 +51,13 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithAnonymousUser()
     public void loginUser() throws Exception {
         UserRequest request = new UserRequest("Name", "Password", "Email");
 
         when(userService.login(any())).thenReturn(new LoginResponse("token", "refreshToken", request.getName(), request.getEmail(), 1L, false));
 
-        mockMvc.perform(post("/api/users/login")
+        mockMvc.perform(post("/api/users/auth/login")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status() .isOk())
@@ -54,6 +66,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void deleteUser() throws Exception {
         User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
 
@@ -66,6 +79,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void getUser() throws Exception {
         User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);
 
@@ -78,6 +92,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void updateUser() throws Exception {
         UserRequest request = new UserRequest("Name", "Password", "Email");
         User user = new User(1L, "Name", "Email", "Password", "Phone", "Email", "City", "notes", false);

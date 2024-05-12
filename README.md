@@ -24,6 +24,16 @@ In aceasta faza, proiectul acopera urmatoarele aspecte: <br>
 4. Mesagerie: Utilizatorii pot sa trimita mesaje, iar administratorii le pot vedea
 5. Utilizatorii pot comanda produse si pot vedea comenzile lor anterioare
 
+## Cerinte proiect 1
+1. relatii intre entitati de toate tipurile (OneToOne, OneToMany, ManyToOne)
+2. operatii CRUD pentru toate entitatile
+3. profiluri si 2 baze de date (2 profiluri, "dev" si "prod", care folosesc 2 baze de date diferite)
+4. teste unitare si de integrare pentru toate endpointurile
+5. validarea datelor si tratarea exceptiilor
+6. log-uri
+7. paginare si sortare a datelor (GET products)
+8. spring security (jwt token pentru autentificare)
+
 ## Tehnologii folosite
 - java (spring)
 - mariadb
