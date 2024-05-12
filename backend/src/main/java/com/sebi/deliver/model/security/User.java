@@ -1,6 +1,9 @@
 package com.sebi.deliver.model.security;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sebi.deliver.model.CartItem;
+import com.sebi.deliver.model.Coupon;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -53,6 +56,35 @@ public class User implements UserDetails {
 
     @Schema(name = "User admin", description = "True if the user is an admin, false otherwise", example = "true")
     private boolean isAdmin;
+
+    @JsonBackReference(value = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<CartItem> cartItems;
+
+    @JsonBackReference(value = "coupon")
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    private Coupon coupon;
+
+    public User(
+            @NonNull Long id,
+            @NonNull String name,
+            @NonNull String email,
+            @NonNull String password,
+            @NonNull String city,
+            @NonNull String phone,
+            @NonNull String address,
+            @NonNull String notes,
+            boolean isAdmin) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.city = city;
+        this.phone = phone;
+        this.address = address;
+        this.notes = notes;
+        this.isAdmin = isAdmin;
+    }
 
     public User(
             @NonNull String name,

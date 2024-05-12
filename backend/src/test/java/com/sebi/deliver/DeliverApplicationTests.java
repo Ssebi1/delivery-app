@@ -8,8 +8,4 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("dev")
 class DeliverApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
 }

@@ -49,6 +49,10 @@ public class OrderService {
             logger.error("User with id: {} not found.", id);
             throw new GenericException();
         }
+        if (user.get().getCity() == null || user.get().getAddress() == null || user.get().getPhone() == null) {
+            logger.error("Missing fields from address.");
+            throw new MissingFieldsException();
+        }
         if (user.get().getCity().isEmpty() || user.get().getAddress().isEmpty() || user.get().getPhone().isEmpty()) {
             logger.error("Missing fields from address.");
             throw new MissingFieldsException();
